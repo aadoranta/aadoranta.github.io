@@ -3,13 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Andrew Adoranti</title>
-  <link rel="stylesheet" href="styles.css"> <!-- optional if you want styling -->
+  <link rel="stylesheet" href="styles.css">
   <style>
     body {
       font-family: Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
       max-width: 700px;
       margin: 40px auto;
       text-align: center;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
     }
     img.profile {
       width: 150px;
@@ -18,29 +24,35 @@
       object-fit: cover;
       margin-bottom: 20px;
     }
+    nav {
+      margin-top: 20px;
+    }
     nav a {
       display: inline-block;
       margin: 10px;
+      padding: 8px 16px;
       text-decoration: none;
       color: #0366d6;
+      border: 1px solid #0366d6;
+      border-radius: 6px;
+      transition: 0.2s;
     }
     nav a:hover {
-      text-decoration: underline;
+      background-color: #0366d6;
+      color: white;
     }
   </style>
 </head>
 <body>
   <h1>Welcome to My Website</h1>
 
-  <!-- Profile picture -->
-  <img src="images/profile.jpg" alt="Profile picture of Andrew Adoranti" class="profile">
+  <img src="static/imgs/1757813773099.jpeg" alt="Profile picture of Andrew Adoranti" class="profile">
 
   <p>Hello! I’m Andrew. This is my personal site.</p>
 
-  <!-- Navigation links -->
   <nav>
-    <a href="blog/">Blog Posts</a>
-    <a href="projects.html">Projects</a>
+    <a href="blog.html">Blog Posts</a>
+    <a href="https://github.com/aadoranta">Projects</a>
     <a href="about.html">About Me</a>
   </nav>
 </body>
