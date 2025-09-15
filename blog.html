@@ -37,6 +37,7 @@
 <body>
   <article>
     <header>
+      <p><a href="index.html">← Back home</a></p>
       <h1>Using MCP to Automate Band Set Lists</h1>
       <p class="lead">I wanted to learn more about MCP (Model Context Protocol) and apply it to a practical problem I actually have — running a band and organizing gig details.</p>
     </header>
@@ -85,8 +86,8 @@
         The model or agent (in my case <code>qwen3:32b</code>) acts as the <strong>MCP client</strong> and receives a prompt from the user to analyze and summarize the key takeaways from an email thread based on a subject line. 
       </p>
       <p>
-        My <strong>MCP server</strong> exposes a list of actions that the agent can take. These actions are broken down into <a class="link" href="https://gofastmcp.com/servers/resources" target="_blank" rel="noopener noreferrer">resources</a>, <a class="link" href="https://gofastmcp.com/servers/prompts" target="_blank" rel="noopener noreferrer">prompts</a>, and <a class="link" href="https://gofastmcp.com/servers/resources" target="_blank" rel="noopener noreferrer">tools</a>.
-        One of the resources I have made available to the agent is <code>get_email_from_subject_line</code>. The agent recognizes this resource and passes the subject line I’ve supplied in the prompt to it. The resource returns the full email thread, and the agent then processes the results to extract the key details.
+        My <strong>MCP server</strong> exposes a list of actions that the agent can take. These actions are referred to as <a class="link" href="https://gofastmcp.com/servers/resources" target="_blank" rel="noopener noreferrer">tools</a>.
+        One of the tools I developed is <code>get_email_from_subject_line</code>. The agent recognizes this tool and passes the subject line I’ve supplied in the prompt to it. The tool returns the full email thread, and the agent then processes the results to extract the key details. It was convenient for me to think of these tools as adapters for API endpoints.
       </p>
       <p>
         The process of obtaining email threads programmatically is often time-consuming and impractical. This is where the real value of MCP lies: it abstracts away the complexity of low-level operations and exposes them as a single function that the model can call seamlessly.
@@ -107,12 +108,20 @@
         <figcaption>mcp-client-for-ollama configured with my custom MCP server</figcaption>
       </figure>
       <p>
-        As a sidenote, <a href="https://github.com/jonigl/mcp-client-for-ollama" target="_blank">mcp-client-for-ollama</a> was a super user-friendly and easy addition to the base model.
+        *As a sidenote, 
+        <a href="https://github.com/jonigl/mcp-client-for-ollama" target="_blank">mcp-client-for-ollama</a> 
+        was a very user-friendly and straightforward addition to the base model. The only limitation I encountered is that, 
+        while FastMCP supports more granular definitions of MCP server actions (such as 
+        <a href="https://gofastmcp.com/servers/resources" target="_blank">resources</a> 
+        and 
+        <a href="https://gofastmcp.com/servers/prompts" target="_blank">prompts</a>), 
+        mcp-client-for-ollama only allows interaction with functions decorated using <code>@mcp.tool()</code>.
       </p>
     </section>
 
     <section>
       <h2>Results</h2>
+
       <h3>Step 1: Request email summary</h3>
       <p>
         I started by asking the agent to summarize and extract the key points from my email correspondence with a 
@@ -128,16 +137,27 @@
         Although perhaps a bit loquacious, the model accurately summarized the email exchange and highlighted key 
         next steps and/or loose ends.
       </p>
+
       <h3>Step 2: Generate a set list based on email-defined constraints</h3>
       <p>
         Next I asked the model to generate a set list based on the email conversation. The model once again was able 
-        to infer that it needed to call a resource, this time pulling a library of our band's repertoire. Based on the 
+        to infer that it needed to call a tool, this time pulling a library of our band's repertoire. Based on the 
         constraints of the email (2 hour gig, mix of jazz and pop songs) the model was able to select a subset of our 
         known songs to satisfy the constraints of the gig.
       </p>
       <figure>
         <img src="static/imgs/setlist.png" alt="Final generated set list" width="850">
         <figcaption>Final set list</figcaption>
+      </figure>
+
+      <h3>Step 3: Saving the set list to a file</h3>
+      <p>
+        Last, I asked the agent to save the set list. I defined a tool to do this which the agent was able to recognize. 
+        The agent saved the set list as a <code>.txt</code> file in the expected directory.
+      </p>
+      <figure>
+        <img src="static/imgs/saved.png" alt="Saved set list file in directory" width="300">
+        <figcaption>Saved set list as a .txt file</figcaption>
       </figure>
     </section>
 
@@ -158,7 +178,7 @@
     </section>
 
     <footer class="back">
-      <p><a href="/blog.html">← Back to blog</a></p>
+      <p><a href="index.html">← Back home</a></p>
     </footer>
   </article>
 </body>
