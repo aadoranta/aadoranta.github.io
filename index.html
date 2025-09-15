@@ -2,30 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Andrew Adoranti</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>About Me - Andrew Adoranti</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      font-size: 18px;
-      line-height: 1.6;
-      max-width: 700px;
+      max-width: 800px;
       margin: 40px auto;
-      text-align: center;
+      line-height: 1.6;
+      font-size: 18px;
     }
-    h1 {
-      font-size: 32px;
-      margin-bottom: 20px;
+    h1, h2, h3 {
+      text-align: left;
     }
     img.profile {
-      width: 150px;
-      height: 150px;
+      display: block;
+      margin: 0 auto 20px;
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 20px;
+    }
+    section {
+      margin-bottom: 30px;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
     }
     nav {
       margin-top: 20px;
+      text-align: center; /* center the links */
     }
     nav a {
       display: inline-block;
@@ -44,16 +56,72 @@
   </style>
 </head>
 <body>
-  <h1>Welcome to My Website</h1>
+  <h1>About Me</h1>
 
+  <!-- Profile picture -->
   <img src="static/imgs/1757813773099.jpeg" alt="Profile picture of Andrew Adoranti" class="profile">
 
-  <p>Hello! I’m Andrew. This is my personal site.</p>
+  <p>
+    Hello! I’m Andrew Adoranti, a data scientist with a passion for machine learning and building innovative solutions that create measurable impact. 
+  </p>
 
   <nav>
     <a href="blog.html">Blog Posts</a>
-    <a href="https://github.com/aadoranta">Projects</a>
-    <a href="about.html">About Me</a>
+    <a href="https://github.com/aadoranta">Github</a>
   </nav>
+
+  <section>
+    <h2>Education</h2>
+    <p><strong>Tufts University</strong>, Master of Science in Data Science — Medford, MA (May 2023)<br>
+    GPA: 4.0, Dean’s List</p>
+
+    <p><strong>University of Windsor</strong>, Bachelor of Science in Electrical and Computer Engineering — Windsor, ON, Canada (Dec 2020)<br>
+    GPA: 3.71, Dean’s List</p>
+  </section>
+
+  <section>
+    <h2>Work Experience</h2>
+
+    <h3>Data Scientist — WindESCo (Apr 2024 – Current)</h3>
+    <ul>
+      <li>Led analytics development for WindESCo’s electrical Condition Monitoring System (eCMS)</li>
+      <li>Engineered algorithm detecting bearing faults 1–2 months earlier than traditional methods</li>
+      <li>Developed turbine under-performance detection algorithm with 85% accuracy</li>
+      <li>Implemented XGBoost Normal Behavior Model predicting failures 2–3 weeks before occurrence</li>
+      <li>Built MLOps pipeline for ML deployment and monitoring</li>
+    </ul>
+
+    <h3>Research Engineer — Flex-Ion Battery Innovation Center (Jun 2023 – Apr 2024)</h3>
+    <ul>
+      <li>Developed ML models for battery cell health and failure detection</li>
+      <li>Built RAG pipeline using GPT-4 and LangChain for research paper analysis</li>
+      <li>Designed scalable database and website reducing evaluation time by 90%</li>
+    </ul>
+
+    <h3>AI Engineering Intern — Vicarious Surgical (Jan 2022 – Dec 2022)</h3>
+    <ul>
+      <li>Designed characterization algorithm for laparoscopic sensor (+10% positional accuracy)</li>
+      <li>Built system for real-time visualization and analysis of annotated 3D point cloud data</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <p>
+      <strong>Programming & Technologies:</strong> Python (PyTorch, Numpy, Polars, Pandas, Scikit-Learn), AWS, SQL, HTML, CSS, Linux (shell scripting), GitHub, Docker, PySpark<br>
+      <strong>Modeling & Data Management:</strong> Predictive modeling, EDA, Statistical modeling, Time-series forecasting, LLMs, Data cleaning<br>
+      <strong>Leadership & Communication:</strong> Skilled at communicating complex technical concepts to diverse stakeholders
+    </p>
+  </section>
+
+  <section>
+    <h2>Hobbies</h2>
+    <p>
+      Outside of work, I’m passionate about music and fitness. I play in a band called 
+      <a href="https://www.youtube.com/thebishopboys" target="_blank">The Bishop Boys</a>,
+      where we create and perform original music. I also enjoy running and am currently training 
+      for my second half-marathon.
+    </p>
+  </section>
 </body>
 </html>
