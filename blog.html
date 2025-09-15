@@ -78,7 +78,7 @@
       <h2>MCP Server and Agent Interaction: Example</h2>
       <figure>
         <!-- Replace with your actual diagram -->
-        <img class="arch" src="static/imgs/mcp-server-agent.png" alt="Diagram of MCP server and agent interaction" />
+        <img class="arch" src="static/imgs/model_diagram.jpg" alt="Diagram of MCP server and agent interaction" />
         <figcaption>MCP server and agent interaction: how requests flow from the model to the tools and back.</figcaption>
       </figure>
 
@@ -167,12 +167,6 @@
         <li>
           <strong>Determine optimal model.</strong><br>
           Although <code>qwen:32b</code> worked well for the assigned task, its output was extremely slow, taking upwards of 2 minutes to answer one prompt (running on a GEFORCE RTX 3060). Therefore, the next step here is to analyze the performance output based on a number of metrics (accuracy, speed, conciseness, and relevancy) to determine a better, faster model.
-        </li>
-        <li>
-          <strong>Multiple tool calls per prompt.</strong><br>
-          The model worked well when there was an expectation of just one tool call per prompt; however, when I used a prompt that would implicitly combine tool calls (i.e. summarize email correspondence and propose a set list) the model failed to use the implied second tool (retrieving the library of known songs). I plan to read more about 
-          <a href="https://gofastmcp.com/getting-started/welcome" target="_blank">FastMCP</a> 
-          to understand if there are any best practices I am leaving out in my approach. Additionally, I would like to test my MCP server with a state-of-the-art model, for example with Claude Desktop, to understand whether or not limitations are simply a result of my small, local models.
         </li>
       </ol>
     </section>
