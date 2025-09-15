@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Using MCP to Automate Band Set Lists</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #111;
+      line-height: 1.6;
+      font-size: 18px;
+    }
+    h1 { font-size: 32px; margin-bottom: 6px; }
+    h2 { font-size: 22px; margin-top: 28px; margin-bottom: 6px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+    p.lead { font-size: 20px; color: #333; }
+    img.arch {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 18px auto;
+      border: 1px solid #eee;
+      border-radius: 6px;
+      box-shadow: 0 6px 18px rgba(2,10,20,0.06);
+    }
+    figure { text-align: center; margin: 18px 0; }
+    figcaption { font-size: 14px; color: #666; margin-top: 6px; }
+    code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { margin-top: 30px; text-align: center; }
+  </style>
+</head>
+<body>
+  <article>
+    <header>
+      <h1>Using MCP to Automate Band Set Lists</h1>
+      <p class="lead">I wanted to learn more about MCP (Model Context Protocol) and apply it to a practical problem I actually have — running a band and organizing gig details.</p>
+    </header>
+
+    <section>
+      <h2>Problem</h2>
+      <p>
+        As someone who runs a band in my free time, I constantly face situations where requests and gig details get buried in long email chains. For example, to create set lists I need to extract key constraints (playing time, genre preferences, specific song choices) from these emails threads while also considering our band's pre-existing repertoire and rehearsed songs.
+      </p>
+      <p>
+        Manually parsing emails, extracting the constraints, and assembling a well-formatted, feasible set list takes hours. When you add follow-up emails, attachments, and last-minute changes, the task becomes tedious and error-prone.
+      </p>
+    </section>
+
+    <section>
+      <h2>Proposal</h2>
+      <p>
+        Use MCP to automatically retrieve and process email threads, extract event constraints, and translate those constraints into a well-formatted set list that respects both organizer requirements and the band's repertoire.
+      </p>
+
+    </section>
+
+    <!-- New sections start here -->
+    <section>
+      <h2>What is the Model Context Protocol (MCP)?</h2>
+      <p>
+        As I understand it, the MCP tries to break down a world of ambiguity for LLMs by translating complex, in-depth actions into contained functions. These functions are called <em>tools</em>. 
+      </p>
+      <p>
+         Developed by Anthropic, the MCP has been referred to as a <a href="https://docs.anthropic.com/en/docs/mcp">“USB-C port for AI Applications”</a> — assumedly because it can connect a model or <em>agent</em> to a wide range of functionality without the need for messy adaptation and lengthy code. 
+      </p>
+      <p>
+        To better understand the MCP, let’s look at the example I’ve developed with my band set-list generator.
+      </p>
+    </section>
+
+    <section>
+      <h2>MCP Server and Agent Interaction: Example</h2>
+      <figure>
+        <!-- Replace with your actual diagram -->
+        <img class="arch" src="static/imgs/mcp-server-agent.png" alt="Diagram of MCP server and agent interaction" />
+        <figcaption>MCP server and agent interaction: how requests flow from the model to the tools and back.</figcaption>
+      </figure>
+
+      <p>
+        The model or agent (in my case <code>qwen3:32b</code>) acts as the <strong>MCP client</strong> and receives a prompt from the user to analyze and summarize the key takeaways from an email thread based on a subject line. 
+      </p>
+      <p>
+        My <strong>MCP server</strong> exposes a list of actions that the agent can take. These actions are broken down into <a class="link" href="https://gofastmcp.com/servers/resources" target="_blank" rel="noopener noreferrer">resources</a>, <a class="link" href="https://gofastmcp.com/servers/prompts" target="_blank" rel="noopener noreferrer">prompts</a>, and <a class="link" href="https://gofastmcp.com/servers/resources" target="_blank" rel="noopener noreferrer">tools</a>.
+        One of the resources I have made available to the agent is <code>get_email_from_subject_line</code>. The agent recognizes this resource and passes the subject line I’ve supplied in the prompt to it. The resource returns the full email thread, and the agent then processes the results to extract the key details.
+      </p>
+      <p>
+        The process of obtaining email threads programmatically is often time-consuming and impractical. This is where the real value of MCP lies: it abstracts away the complexity of low-level operations and exposes them as a single function that the model can call seamlessly.
+      </p>
+    </section>
+
+    <section>
+      <h2>Framework</h2>
+      <p>
+        To build and deploy my MCP server, I opted to use a completely local stack. For my model, I downloaded 
+        <a href="https://ollama.com/library/qwen3" target="_blank">qwen3:32b from Ollama</a> and used 
+        <a href="https://github.com/jonigl/mcp-client-for-ollama" target="_blank">mcp-client-for-ollama</a> 
+        to utilize my base model as an MCP client. Lastly, I used <a href="https://gofastmcp.com/getting-started/welcome" target="_blank">FastMCP</a>
+        to create my MCP server and expose the necessary actions.
+      </p>
+      <figure>
+        <img src="static/imgs/ollmcp.png" alt="Screenshot of mcp-client-for-ollama configured with my custom MCP server" width="600">
+        <figcaption>mcp-client-for-ollama configured with my custom MCP server</figcaption>
+      </figure>
+      <p>
+        As a sidenote, <a href="https://github.com/jonigl/mcp-client-for-ollama" target="_blank">mcp-client-for-ollama</a> was a super user-friendly and easy addition to the base model.
+      </p>
+    </section>
+
+    <section>
+      <h2>Results</h2>
+      <h3>Step 1: Request email summary</h3>
+      <p>
+        I started by asking the agent to summarize and extract the key points from my email correspondence with a 
+        customer based on the subject line of the email thread. The MCP client was able to successfully connect to the MCP server and 
+        retrieve the desired conversation from just the subject line. It cannot be understated how impressive this is 
+        when you consider the level of complexity this would otherwise require in the absence of MCP.
+      </p>
+      <figure>
+        <img src="static/imgs/email_summary.png" alt="Model's summarized email response" width="850">
+        <figcaption>Response generated by the agent after retrieving the email thread</figcaption>
+      </figure>
+      <p>
+        Although perhaps a bit loquacious, the model accurately summarized the email exchange and highlighted key 
+        next steps and/or loose ends.
+      </p>
+      <h3>Step 2: Generate a set list based on email-defined constraints</h3>
+      <p>
+        Next I asked the model to generate a set list based on the email conversation. The model once again was able 
+        to infer that it needed to call a resource, this time pulling a library of our band's repertoire. Based on the 
+        constraints of the email (2 hour gig, mix of jazz and pop songs) the model was able to select a subset of our 
+        known songs to satisfy the constraints of the gig.
+      </p>
+      <figure>
+        <img src="static/imgs/setlist.png" alt="Final generated set list" width="850">
+        <figcaption>Final set list</figcaption>
+      </figure>
+    </section>
+
+    <section id="next-steps">
+      <h2>Next Steps</h2>
+      <ol>
+        <li>
+          <strong>Determine optimal model.</strong><br>
+          Although <code>qwen:32b</code> worked well for the assigned task, its output was extremely slow, taking upwards of 2 minutes to answer one prompt (running on a GEFORCE RTX 3060). Therefore, the next step here is to analyze the performance output based on a number of metrics (accuracy, speed, conciseness, and relevancy) to determine a better, faster model.
+        </li>
+        <li>
+          <strong>Multiple tool calls per prompt.</strong><br>
+          The model worked well when there was an expectation of just one tool call per prompt; however, when I used a prompt that would implicitly combine tool calls (i.e. summarize email correspondence and propose a set list) the model failed to use the implied second tool (retrieving the library of known songs). I plan to read more about 
+          <a href="https://gofastmcp.com/getting-started/welcome" target="_blank">FastMCP</a> 
+          to understand if there are any best practices I am leaving out in my approach. Additionally, I would like to test my MCP server with a state-of-the-art model, for example with Claude Desktop, to understand whether or not limitations are simply a result of my small, local models.
+        </li>
+      </ol>
+    </section>
+
+    <footer class="back">
+      <p><a href="/blog.html">← Back to blog</a></p>
+    </footer>
+  </article>
+</body>
+</html>
